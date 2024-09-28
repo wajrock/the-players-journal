@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+:root {
+  /* Colors */
+  --main-color: #a970ff;
+  --text-cta-color: rgba(248, 245, 255, 1);
+
+  --background-color: #030712;
+  --card-color:#161c2c;
+  --cta-card-color:#262b3b;
+
+  --primary-text-color: #f9fafb;
+  --secondary-text-color: #d1d5db;
+  --third-text-color: #6b7280;
+
+  --disabled-color: #6b72805e;
+
+  --error-color: #ca462a;
+  --text-error-color: #fef1f2;
+
+  --sucess-color: #32862b;
+  --text-sucess-color: #edfdf8;
+
+  --default-radius:.2rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*:not(html,body) {
+  -ms-overflow-style: none; /* Pour Internet Explorer et Edge */
+  scrollbar-width: none; /* Pour Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Masque la scrollbar */
+  }
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  background-color: var(--background-color);
+  font-family: "DM Sans", system-ui;
+  
+}
+
+#root {
+  min-height: 100vh;
+}
+
+
+body {
+  overflow-y: scroll;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a {
+  text-decoration: none;
+}
+
+.image-loader{
+  background-color: var(--card-color);
+  width: 100%;
+  height: 100%;
+  animation: image-loading 1s linear infinite alternate;
+}
+
+@keyframes image-loading {
+  0% {
+    background-color: #0b1222;
+  }
+  100% {
+    background-color: #0C111D;
+  }
+}
+

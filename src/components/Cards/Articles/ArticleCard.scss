@@ -1,0 +1,185 @@
+.article-card-wrap{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+    transition: all .4s;
+    gap: 1.25rem;
+    
+    
+
+    &-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        aspect-ratio: 3/2;
+        border-radius: .5rem;
+        padding: 1rem;
+        border: .15rem solid rgba(255,255,255,0.075);
+        
+
+        & .image-loader{
+            height: 100%;
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &-picture{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all .4s;
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &-overlay{
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            background: linear-gradient(180deg, rgba(3, 7, 18, 0.00) 25.69%, rgba(3, 7, 18, 0.50) 53.69%, rgba(3, 7, 18, 0.75) 68%, rgba(3, 7, 18, 0.93) 78.66%, rgba(3, 7, 18, 0.98) 87.18%, #030712 94.79%);
+            position: absolute;
+            top: 0;
+            left: 0;
+
+
+        }
+        & .description{
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            width: 100%;
+
+            &-title{
+                color: var(--primary-text-color);
+                font-family: Acorn;
+                font-size: 1.25rem;
+                line-height: 1.25rem;
+                font-weight: 700;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                margin-top: .25rem;
+                transition: all .4s;
+                word-break:keep-all;
+                width: 60%;
+            }
+
+            &-footer{
+                color: var(--secondary-text-color);
+                font-size: .875rem;
+                line-height: .875rem;
+                font-weight: 500;
+                display: flex;
+                gap: .5rem;
+                align-items: center;
+                
+    
+                & img{
+                    height: 1rem;
+                    width: 1rem;
+                    border-radius: 5rem;
+                }
+                
+            }
+
+            &-tags{
+                z-index: 3;
+                position: relative;
+                display: flex;
+                gap: 1rem;
+                margin-top: .25rem;
+                opacity: .85;
+
+                & .stars-notation-wrap{
+                    background-color: transparent;
+                    padding: 0;
+                    gap: .5rem;
+                    & svg{
+                        height: 1rem;
+                    }
+                    & p {
+                        font-size: .8rem;
+                        line-height: .8rem;
+                        font-weight: 700;
+                        color: var(--secondary-text-color);
+                    }
+                }
+                
+                &-reading-time{
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                    background-color: transparent;
+                    height: 100%;
+                    color: var(--secondary-text-color);
+                    border-radius: var(--default-radius);
+                    & svg {
+                        height: 1rem;
+                    }
+                    
+                    & p {
+                        font-weight: 700;
+                        font-size: .8rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (max-width:767px) {
+    .article-card-wrap{
+        
+        &-container{
+            aspect-ratio: 3/2.5;
+        }
+    
+        & .description{
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+
+            &-tags{
+                display: flex;
+            }
+            
+            &-header{
+                color: var(--secondary-text-color);
+                font-size: .8rem;
+                
+            }
+    
+            &-title{
+                margin-top: 0;
+                transition: all .4s;
+                line-height: normal;
+            }
+    
+            
+            
+        }
+    }
+
+}
+
+@media (hover: hover) {
+    .article-card-wrap.clickable:hover{
+        cursor: pointer;
+
+    }
+}

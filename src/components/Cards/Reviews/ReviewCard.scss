@@ -1,0 +1,143 @@
+.review-card-wrap,
+.new-review-card-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+    overflow: hidden;
+    flex: 1;
+    padding: 2.5rem;
+    transition: all 0.4s;
+    background-color: var(--card-color);
+    border-radius: var(--default-radius);
+
+    &-header{
+        display: flex;
+        gap: .5rem;
+
+        &-delete,&-link {
+            display: flex;
+            padding: 0.75rem;
+            justify-content: center;
+            width: -moz-fit-content;
+            width: fit-content;
+            align-items: center;
+            aspect-ratio: 1/1;
+            border-radius: var(--default-radius);
+            
+    
+            & svg {
+                height: 1rem;
+            }
+    
+            
+        }
+
+        &-delete{
+            background-color: var(--error-color);
+            color: var(--text-error-color);
+            stroke: var(--text-error-color);
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--text-error-color);
+                color: var(--error-color);
+                stroke: var(--error-color);
+            }
+        }
+
+        &-link{
+            background-color: var(--cta-card-color);
+            color: var(--text-error-color);
+            stroke: var(--text-error-color);
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--main-color);
+                color: var(--primary-text-color);
+                stroke: var(--primary-text-color);
+            }
+        }
+    }
+
+    &-details {
+        font-size: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+
+        &-author{
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--secondary-text-color);
+
+            & img {
+                height: 1.5rem;
+                border-radius: 5rem;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+                
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+
+        }
+
+        &-date{
+            font-weight: 500;
+            color: var(--third-text-color);
+        }
+
+        
+    }
+
+    &-title {
+        color: var(--primary-text-color);
+        font-family: Acorn;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-top: 1rem;
+    }
+
+    &-text {
+        max-width: 100%;
+        margin-top: .5rem;
+        color: var(--secondary-text-color);
+    }
+
+    &-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        & p {
+            color: var(--secondary-text-color);
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        & span {
+            color: var(--main-color);
+            font-size: 1rem;
+            font-weight: 900;
+        }
+    }
+
+    
+}
+
+.review-card-wrap-empty-text{
+    color: var(--secondary-text-color);
+    font-style: italic;
+}
+
+.new-review-card-wrap {
+    width: 100%;
+}

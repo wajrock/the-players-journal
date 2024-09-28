@@ -1,0 +1,18 @@
+.game-card-wrap{
+    flex: 1;
+    display: flex;
+    transition: all .4s;
+    overflow: hidden;
+    border-radius: var(--default-radius);
+
+    &:hover{
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+
+    & img{
+        aspect-ratio: 4/5.69;
+        width: 100%;
+        object-fit: fill;
+    }
+}

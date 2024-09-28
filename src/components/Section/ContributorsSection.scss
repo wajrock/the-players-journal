@@ -1,0 +1,67 @@
+.contributors{
+    & .section-wrap-header{
+        padding-left: 3.625rem;
+    }
+
+    & .section-wrap-content {
+        min-height: 17rem;
+        display: flex;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        
+        & .contributor-card-wrap{
+            scroll-snap-align: center;
+            width: 15rem;
+            height: 17rem;
+            scroll-snap-align: start;
+
+            &:first-child{
+                margin-left: 3.625rem;
+            }
+
+
+            &:last-child{
+                margin-right: 3.625rem;
+            }
+        }
+        
+    }
+} 
+
+@media only screen and (max-width:767px) {
+    .contributors{
+        & .section-wrap-header{
+            padding-left: 1.5rem;
+        }
+    
+        & .section-wrap-content {
+            min-height: 17rem;
+            display: flex;
+            overflow-x: scroll;
+            gap: 1rem;
+            
+            & .contributor-card-wrap{
+                scroll-snap-align: center;
+                width: 15rem;
+                height: 17rem;
+                scroll-snap-align: start;
+                flex: 0 0 15rem;
+
+                &:hover{
+                    transform: none;
+                }
+    
+                &:first-child{
+                    margin-left: 1.5rem;
+                }
+    
+    
+                &:last-child{
+                    margin-right: 1.5rem;
+                }
+            }
+            
+        }
+    } 
+}

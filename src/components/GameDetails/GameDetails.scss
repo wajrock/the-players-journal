@@ -1,0 +1,126 @@
+.game-details-wrap{
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    align-items: start;
+    gap: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: 100%;
+
+    & .image-loader{
+        width: 100%;;
+        aspect-ratio: 4/5.69;
+    }
+
+    &-cover{
+        width: 100%;
+        aspect-ratio: 4/5.69;
+        object-fit: cover;
+        border-radius: var(--default-radius);
+    }
+
+    & .texts{
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+        overflow: hidden;
+    
+        &-title{
+            font-size: 2rem;
+            color: var(--primary-text-color);
+            font-family: 'Acorn';
+        }
+
+        &-details{
+            display: flex;
+            gap: 1.5rem;
+    
+            &-item{
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+                padding: .75rem 0;
+                height: 100%;
+                color: var(--secondary-text-color);
+
+                & svg {
+                    height: 1.3rem;
+                }
+    
+                & img {
+                    height: 1.3rem;
+                    aspect-ratio: 1/1;
+                    border-radius: 10rem;
+                }
+                
+                & p {
+                    font-weight: 700;
+                }
+            }
+        }
+
+        &-synopsis{
+            color: var(--secondary-text-color);
+            opacity: .7;
+            font-style: italic;
+            text-align: justify;
+        }
+    
+    
+        
+    
+        &-footer{
+            display: flex;
+            gap: 1rem;
+            margin-top: .5rem;
+    
+            &-platforms{
+                display: flex;
+                gap: .25rem;
+                
+                
+                &-item{
+                    padding: 1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--card-color);
+                    color: var(--primary-text-color);
+                    border-radius: var(--default-radius);
+                    & svg {
+                        height: 1.25rem;
+                    }
+                }
+    
+                
+            }
+        }
+    }
+
+    
+}
+
+@media only screen and (max-width:767px) {
+    .game-details-wrap{
+        grid-template-columns: 1fr;
+
+        & .image-loader{
+            max-width: 13rem;
+        }
+
+        &-cover{
+            max-width: 13rem;
+        }
+
+        & .texts{
+            &-title{
+                font-size: 1.75rem;
+            }
+            &-details{
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,114 @@
+.discover-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 8rem 3.625rem 5rem 3.625rem;
+    gap: 4rem;
+    overflow-x: hidden;
+
+    &-header{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        width: 100%;
+
+        &-title{
+            max-width: 20ch;
+            color: var(--primary-text-color);
+
+            & span{
+                color: var(--main-color);
+            }
+        }
+    }
+
+    &-grid{
+        gap: 1rem;
+        width: 100%;
+        display: grid;
+        
+
+        &.articles{
+            grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+        }
+
+        &.games{
+            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+        }
+
+        & .article-card-wrap{
+            overflow: initial;
+
+            &-cover{
+                overflow: initial;
+            }
+        }
+    }
+}
+
+.actionbar{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+
+    &-searchbar{
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: .3rem;
+        border: .1rem solid var(--disabled-color);
+        border-radius: .5rem;
+        gap: .5rem;
+        max-width: 100%;
+
+        & input{
+            font-size: 1rem;
+            border: none;
+            outline:none;
+            font-family: 'DM Sans';
+            width: 30ch;
+            color: var(--primary-text-color);
+            background-color: transparent;
+            font-weight: 500;
+        }
+
+        &-button{
+            height: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 10rem;
+            height: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-text-color);
+
+        }
+
+        & svg{
+            height: 1.125rem;
+            
+        }
+    }
+}
+
+@media only screen and (max-width:767px) {
+
+    .discover-wrap{
+        padding: 8rem 1.5rem 8rem 1.5rem;
+    }
+
+}
+
+@media only screen and (max-width:1023px) {
+    .discover-wrap-grid{
+            &.articles{
+                grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+            }
+    
+            &.games{
+                grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+            }
+        }
+}

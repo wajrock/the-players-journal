@@ -1,0 +1,65 @@
+.editor-tab-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 9999;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--card-color);
+    background-color: #161c2c;
+    border: .15rem solid var(--disabled-color);
+    gap: 3rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+
+    &-item,& .text-tools-item {
+        display: flex;
+        padding: 0.75rem;
+        gap: 0.5rem;
+        align-items: center;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        transition: all 0.4s;
+        background-color: var(--disabled-color);
+        color: var(--primary-text-color);
+        border-radius: .5rem;
+
+        & svg {
+            height: 1.25rem;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--primary-text-color);
+            color: var(--card-color);
+        }
+    }
+}
+
+.text-tools {
+    display: flex;
+    gap: 0.5rem;
+}
+
+@media only screen and (max-width:767px) {
+    .editor-tab-wrap {
+        top: unset;
+        bottom: 8rem;
+        &-item,& .text-tools-item {
+            padding: 1rem;
+            aspect-ratio: 1/1;
+    
+            & p{
+                display: none;
+            }
+
+            &:hover{
+                background-color: var(--disabled-color);
+                color: var(--primary-text-color);
+            }
+        }
+    }
+}

@@ -1,0 +1,201 @@
+.overlay-wrap{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background-color: rgba(0,0,0,.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.popup-edit-wrap{
+    background-color: var(--card-color);
+    padding: 2rem;
+    border: .15rem solid var(--disabled-color);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: .5rem;
+
+    &-header{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+
+        &-title{
+            font-size: 1.75rem;
+            color: var(--primary-text-color);
+            margin: 0 auto;
+        }
+
+        &-actions{
+            display: flex;
+            gap: 1rem;
+
+            &-close{
+                height: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                aspect-ratio: 1/1;
+                border-radius: 5rem;
+    
+                & svg {
+                    height: .75rem;
+                }
+    
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+    
+            &-close{
+                
+                background-color:var(--cta-card-color);
+                color: var(--secondary-text-color);
+                stroke: var(--secondary-text-color);
+
+                &:hover{
+                    background-color: var(--secondary-text-color);
+                    color: var(--card-color);
+                    stroke: var(--card-color);
+                }
+                
+            }
+    
+           
+        }
+
+        
+    }
+
+    &-validate{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: .75rem;
+        border-radius: .5rem;
+        background-color: var(--main-color);
+        color: var(--text-cta-color);
+
+        &.disabled{
+            background-color: var(--disabled-color);
+            color: var(--card-color);
+            opacity: .3;
+
+            &:hover{
+                cursor: initial;
+                background-color: var(--disabled-color);
+            }
+        }
+
+
+        & p{
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        &:not(.disabled):hover{
+            cursor: pointer;
+            background-color: var(--main-color);
+            color: var(--text-cta-color);
+            stroke: var(--text-cta-color);
+        }
+    }
+}
+
+.popup-edit-wrap-content{
+    width: 25rem;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1.25rem;
+
+    &-profile-picture{
+        grid-column: 1 / span 2;
+        display: flex;
+        justify-content: center;
+
+        &-image{
+            display: flex;
+            position: relative;
+
+            & img {
+                border-style: dashed;
+                aspect-ratio: 1/1;
+                height: 8rem;
+                border-radius: 15rem;
+                object-fit: cover;
+            }
+
+            & input{
+                display: none;
+            }
+        }
+
+        
+
+        
+    }
+
+    & p{
+        color: var(--third-text-color);
+    }
+
+    & input{
+        padding: .8rem;
+        border-color: var(--disabled-color);
+        background-color: transparent;
+    }
+
+    & .input:nth-child(3){
+        grid-column: 1 / span 2;
+    }
+}
+
+@media only screen and (max-width:767px) {
+    .overlay-wrap{
+        align-items: end;
+        background-color: rgba(0, 0, 0, 0.8);
+        
+    }
+    .popup-edit-wrap{
+        padding: 1.5rem;
+        gap: 2rem;
+        border-radius: 1.5rem 1.5rem 0 0;
+        animation: slideInUp .4s;
+        border: none;
+    
+        &-header{
+    
+            &-title{
+                font-size: 1.25rem;
+            }
+            
+        }
+    }
+    
+    .popup-edit-wrap-content{
+        width: 100%;
+        display: grid;
+        gap: 1.25rem;
+        & p{
+            color: var(--third-text-color);
+        }
+    
+        & input{
+            padding: .8rem;
+            border-color: var(--disabled-color);
+            background-color: transparent;
+        }
+    
+        & .input:nth-child(3){
+            grid-column: 1 / span 2;
+        }
+    }
+}

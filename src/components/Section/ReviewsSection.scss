@@ -1,0 +1,22 @@
+.reviews{
+    width: 100%;
+    & .section-wrap-content{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+        gap: .5rem;
+        & .review-card-wrap{
+            width: 100%;
+            min-width: 18rem;
+        }
+    }
+    
+}
+
+@media only screen and (max-width:767px) {
+    .reviews{
+        & .section-wrap-content{
+            grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+        }
+        
+    } 
+}

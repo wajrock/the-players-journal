@@ -1,0 +1,72 @@
+.input{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    font-family: 'DM Sans';
+    
+
+    & input{
+        width: 100%;
+        font-size: 1rem;
+        border: .1rem solid rgba(130, 132, 138, 0.40);
+        background-color: var(--background-color);
+        padding: 1rem;
+        color: var(--primary-text-color);
+        outline: none;
+        font-family: 'DM Sans';
+        border-radius: .5rem;
+        
+
+        &::placeholder{
+            color: var(--third-text-color);
+        }
+    }
+
+    & p{
+        color: var(--secondary-text-color);
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-radius: .5rem;
+    }
+
+    &.error{
+        & input {
+            border: .1rem solid rgba(255, 0, 0, 0.40);
+            color: red;
+        }
+
+        & .error-message{
+            color: red;
+            opacity: .8;
+            font-size: .8rem;
+        }
+    }
+}
+
+input:-webkit-autofill, input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+    -webkit-text-fill-color: var(--color-text-input);
+  }
+
+  input[type="date"]{
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-between;
+
+    &.empty-date{
+        &:before {
+            content: attr(placeholder) !important;
+            margin-right: 0.5em;
+            display: block;
+            white-space: nowrap;
+          }
+    
+        &::-webkit-datetime-edit {
+            display: none;
+        }
+    }
+
+   
+  }

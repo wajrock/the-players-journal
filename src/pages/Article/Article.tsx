@@ -64,7 +64,7 @@ const Article = () => {
 
   const {setIsAPIAvailable} = useAPI();
 
-  const [alreadyLoad,setAlreadyLoad] = useState<boolean>(false);
+  const isUpdated = loc.state && loc.state.reviewsUpdated 
 
   useEffect(() => {
     
@@ -82,6 +82,24 @@ const Article = () => {
             reviewsSectionRef.current.scrollIntoView();
           }
         }
+
+        fetchArticleReviews(article_id!).then(data=>{
+          if (data.status === 'error'){
+            setIsAPIAvailable(false)
+          } else {
+            setReviewsLength(data.results.length);
+            
+            wichReviewView(
+              article_id!,
+              user,
+              data.results.length,
+              articleData,
+              setTypeReviews
+            );
+          }
+        })
+
+       
       setIsFirstRender(false);
     }
 
@@ -114,30 +132,6 @@ const Article = () => {
           `content-formatted-article-${article_id}`,
           JSON.stringify(formatContent)
         );
-
-        if (!reviewsLength){
-          fetchArticleReviews(article_id!).then(data=>{
-            if (data.status === 'error'){
-              setIsAPIAvailable(false)
-            } else {
-              setReviewsLength(data.results.length);
-            }
-          })
-  
-         
-        }
-
-        if (reviewsLength){
-          wichReviewView(
-            article_id!,
-            user,
-            reviewsLength,
-            articleData,
-            setTypeReviews
-          );
-        }
-
-      
     }
   }, [
     user,
@@ -151,6 +145,30 @@ const Article = () => {
     textFormatted,
     typeReviews,
   ]);
+
+  useEffect(()=>{
+    
+    if (isUpdated && articleData){
+      loc.state = { ...loc.state, reviewsUpdated: undefined };
+        
+        
+        fetchArticleReviews(article_id!).then(data=>{
+          if (data.status === 'error'){
+            setIsAPIAvailable(false)
+          } else {
+            setReviewsLength(data.results.length);
+
+            wichReviewView(
+              article_id!,
+              user,
+              data.results.length,
+              articleData,
+              setTypeReviews
+            );
+          }
+        })
+    }
+  },[articleData,article_id,isFirstRender,loc])
 
   return (
     <>{articleData ? (

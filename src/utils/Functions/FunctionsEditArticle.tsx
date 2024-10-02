@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { DataToSend, uploadCoverProps } from "../Types";
+import { DataToSend, ResponseAPI, uploadCoverProps } from "../Types";
 import { articleContent } from "../../components/Cards/Articles/ArticleCard";
 import { Game } from "../../components/GameDetails/GameDetails";
 import {
@@ -210,9 +210,9 @@ export const submitEdits = async(
       body: formData,
     })
 
-    const updateImagesReponse = await updateImagesRequest.json();
+    const updateImagesReponse:ResponseAPI = await updateImagesRequest.json();
 
-    if (updateImagesReponse.status === 'sucess'){
+    if (updateImagesReponse.code === 200){
       localStorage.removeItem(`content-formatted-article-${article_id}`);
       dataAreUpdated["article-images"] = true;
     }
@@ -224,8 +224,8 @@ export const submitEdits = async(
       body: JSON.stringify(dataToSend!["game-data"]),
     })
 
-    const updateGameReponse = await updateGameRequest.json();
-    dataAreUpdated["game-data"] = updateGameReponse.status === 'sucess';
+    const updateGameReponse:ResponseAPI = await updateGameRequest.json();
+    dataAreUpdated["game-data"] = updateGameReponse.code === 200;
 
   }
 
@@ -235,11 +235,11 @@ export const submitEdits = async(
       body: JSON.stringify(dataToSend!["article-data"]),
     })
 
-    const updateArticleResponse = await updateArticleRequest.json();
+    const updateArticleResponse:ResponseAPI = await updateArticleRequest.json();
 
-    if (updateArticleResponse.status === 'sucess'){
+    if (updateArticleResponse.code === 200){
       localStorage.removeItem(`content-formatted-article-${article_id}`);
-      dataAreUpdated["article-data"] = updateArticleResponse.status === 'sucess';
+      dataAreUpdated["article-data"] = updateArticleResponse.code === 200;
     }
   }
 
@@ -257,9 +257,9 @@ export const submitEdits = async(
       body: formData,
     })
 
-    const updateArticleCoverResponse = await updateArticleCoverRequest.json();
+    const updateArticleCoverResponse:ResponseAPI = await updateArticleCoverRequest.json();
     
-    dataAreUpdated["article-cover"] = updateArticleCoverResponse.status === 'sucess';
+    dataAreUpdated["article-cover"] = updateArticleCoverResponse.code === 200;
     
 
   }
@@ -278,12 +278,12 @@ export const submitEdits = async(
       body: formData,
     })
 
-    const updateGameCoverResponse = await updateGameCoverRequest.json();
+    const updateGameCoverResponse:ResponseAPI = await updateGameCoverRequest.json();
 
-    if (updateGameCoverResponse.status === 'sucess'){
-      const fetchGamesResponse = await fetchGames();
+    if (updateGameCoverResponse.code === 200){
+      const fetchGamesResponse:ResponseAPI = await fetchGames();
       
-      if (fetchGamesResponse.status === 'sucess'){
+      if (fetchGamesResponse.code === 200){
         localStorage.setItem('games',JSON.stringify(fetchGamesResponse.results));
         dataAreUpdated["game-cover"] = true;
       } else {
@@ -299,7 +299,7 @@ export const submitEdits = async(
     (articleIsEdited && dataAreUpdated["article-data"])
   ){
     
-    const fetchArticleContentResponse = await fetchArticleContent(article_id!);
+    const fetchArticleContentResponse:ResponseAPI = await fetchArticleContent(article_id!);
 
       localStorage.setItem(
         `data-article-${article_id}`,
@@ -311,7 +311,7 @@ export const submitEdits = async(
     (gameCoverIsEdited && dataAreUpdated["game-cover"]) ||
     (gameIsEdited && dataAreUpdated["game-data"])
   ){
-    const fetchGameDetailsResponse = await fetchArticleGameDetails(article_id!);
+    const fetchGameDetailsResponse:ResponseAPI = await fetchArticleGameDetails(article_id!);
 
       localStorage.setItem(
         `article-games-details-${article_id}`,

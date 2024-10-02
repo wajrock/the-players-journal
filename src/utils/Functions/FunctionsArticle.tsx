@@ -1,5 +1,6 @@
 import { articleContent } from "../../components/Cards/Articles/ArticleCard";
 import { fetchReviewsUsersListFromArticle } from "../Fetchs/FetchsReviews";
+import { ResponseAPI } from "../Types";
 
 export const getReadingTime = (text: string): string => {
   const countWords = text.split(" ").length;
@@ -114,9 +115,9 @@ export const deleteArticle = async (
     body: JSON.stringify(deleteBody),
   });
 
-  const deleteImagesResponse = await deleteImagesRequest.json();
+  const deleteImagesResponse:ResponseAPI = await deleteImagesRequest.json();
 
-  if (deleteImagesResponse.status === 'sucess'){
+  if (deleteImagesResponse.code === 200){
     dataAreDeleted["article-images"] = true;
   }
 
@@ -126,9 +127,9 @@ export const deleteArticle = async (
       body: JSON.stringify(deleteBody),
     });
   
-    const deleteArticleResponse = await deleteArticleRequest.json();
+    const deleteArticleResponse:ResponseAPI = await deleteArticleRequest.json();
     
-    if (deleteArticleResponse.status === 'sucess'){
+    if (deleteArticleResponse.code === 200){
       dataAreDeleted["article-data"] = true;
     }
   }
@@ -141,8 +142,8 @@ export const deleteArticle = async (
       body: JSON.stringify(deleteBody),
     });
   
-    const deleteGameResponse = await deleteGameRequest.json();
-    if (deleteGameResponse.status === 'sucess'){
+    const deleteGameResponse:ResponseAPI = await deleteGameRequest.json();
+    if (deleteGameResponse.code === 200){
       dataAreDeleted["game-data"] = true;
     }
   }

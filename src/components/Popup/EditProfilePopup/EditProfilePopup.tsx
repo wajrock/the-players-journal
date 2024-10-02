@@ -8,6 +8,9 @@ import { validatePassword } from "../../../utils/validatePassword";
 import { fetchUsernamesEmails,updateUser,fetchProfiles,updateUserContext } from "../../../utils/Fetchs/FetchsUsers";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../UserContext";
+import { useAPI } from "../../../ApiStatusContext";
+import { handleResponse } from "../../../utils/Functions/FunctionsFetches";
+import { useToast } from "../../../ToastContext";
 
 interface PopupInputsValues {
   name:string,
@@ -50,12 +53,27 @@ const EditProfilePopup: FunctionComponent<PopupType> = ({
   const navigate = useNavigate();
 
   const {setUser,setProfiles} = useUser();
+  const {setIsAPIAvailable} = useAPI();
+  const {showToast} = useToast();
 
  
 
   useEffect(() => {
-    fetchUsernamesEmails('mails').then(setMailsList);
-    fetchUsernamesEmails('usernames').then(setUsernamesList);
+    fetchUsernamesEmails('mails').then((data)=>{
+      if (data.code === 500){
+        setIsAPIAvailable(false);
+      } else if (data.code === 200){
+        setUsernamesList(data.results)
+      }
+      
+    });
+     fetchUsernamesEmails('mails').then((data)=>{
+      if (data.code === 500){
+        setIsAPIAvailable(false);
+      } else if (data.code === 200){
+        setUsernamesList(data.results)
+      }
+    });
   }, [id_profile]);
 
   const handleClickOutsidePopup = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -81,33 +99,33 @@ const EditProfilePopup: FunctionComponent<PopupType> = ({
         last_name: nom,
         first_name: prenom,
         mail: emailInput,
-        ...(password && { password }), // Only include password if provided
+        ...(password && { password }),
       };
       
       updateUser(updatedProfile).then((data) => {
-        
-        if (data.status === 'sucess'){
-            if (password === ""){
-                if (usernameInput !== popupInputsValues.username){
-                    navigate(`/@${usernameInput}`,{state:{ toast: {
-                      message: "Toutes les informations sont à jour",
-                      type: "success",
-                      title:'Profil modifié'
-                    }}})
-                }
-                openPopupSetter(false);
-                fetchProfiles().then(data => setProfiles(data));
-                updateUserContext(id_profile).then(user => 
-                  setUser(user)
-                )
-            } else {
-                navigate('/authentication',{state:{ toast: {
-                  message: "Reconnectes toi pour accèder à ton compte",
+        if (data.code === 500){
+          setIsAPIAvailable(false);
+        } else if (data.code === 400){
+          showToast("Impossible de mettre à jour le profil","error","Oups...")
+        } else if (data.code === 200){
+          if (password === ""){
+            if (usernameInput !== popupInputsValues.username){
+                navigate(`/@${usernameInput}`,{state:{ toast: {
+                  message: "Toutes les informations sont à jour",
                   type: "success",
                   title:'Profil modifié'
                 }}})
             }
-            
+            openPopupSetter(false);
+            fetchProfiles().then(data => data.code === 200 && setProfiles(data.results));
+            updateUserContext(id_profile).then(data => data.code === 200  && setUser(data.results))
+        } else {
+            navigate('/authentication',{state:{ toast: {
+              message: "Reconnectes toi pour accèder à ton compte",
+              type: "success",
+              title:'Profil modifié'
+            }}})
+        }
         }
       })
 }

@@ -13,12 +13,17 @@ import HeroBanner from "../../components/HeroBanners/HeroBanner";
 import { fetchProfiles, updateUserContext } from "../../utils/Fetchs/FetchsUsers";
 import { useAPI } from "../../ApiStatusContext";
 import BottomBar from "../../components/BottomBar/BottomBar";
+import { useToast } from "../../ToastContext";
+import Toast from "../../components/Toast/Toast";
 
 const Profile: FunctionComponent<{
   profileData: ContentType;
 }> = ({ profileData }) => {
+  
+  
   const loc = useLocation();
   const loadTop = loc.state?.loadTop;
+  const contentIsUpdated = loc.state?.contentIsUpdated;
   const navigate = useNavigate();
   const { user,logout,setUser,setProfiles } = useUser();
   const [openPopup, setOpenPopup] = useState<boolean>(false);
@@ -37,12 +42,18 @@ const Profile: FunctionComponent<{
 
     return image.complete;
   });
+  const [imageLoading,setImageLoading] = useState<boolean>(false);
   const [imageSrc,setImageSrc] = useState<string>(()=>{
     var image = new Image();
     image.src = profilePicture ?  `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}`: "";
 
     return image.complete ? `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}`: ""
   });
+
+  const [imageUploadSrc,setImageUploadSrc] = useState<string>("");
+
+  const {setIsAPIAvailable} = useAPI();
+  const {showToast} = useToast();
 
   useEffect(() => {
     if (!imageLoaded){
@@ -58,13 +69,14 @@ const Profile: FunctionComponent<{
     }
   }, [imageLoaded,profilePicture.path]);
 
-  const {setIsAPIAvailable} = useAPI();
+
   
   const handleProfilePictureChanged = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     if (file) {
+      setImageLoading(true);
       const extension = file.name.split(".").pop();
       const newFilename = 
       `${profileData.nom.toLowerCase()}-${(Date.now() * Math.random())
@@ -75,11 +87,15 @@ const Profile: FunctionComponent<{
 
       const reader = new FileReader();
       reader.onload = (event) => {
+          setImageUploadSrc(event.target?.result as string)
           setProfilePicture({
             file: newFile,
             path: event.target?.result as string,
             "old-image":profilePicture ? profilePicture.path : ""
-          });          
+          });  
+
+          
+                
         
       };
       reader.readAsDataURL(newFile);
@@ -95,42 +111,49 @@ const Profile: FunctionComponent<{
             method: "POST",
             body: profilePictureData
           })
+
   
           if (!response.ok) {
             setIsAPIAvailable(false)
           }
+
           const data = await response.json();
           
-          
-          
-          if (data.status === 'error'){
-            setIsAPIAvailable(false)
-          } else {
-            
+          if (data.code === 400){
+            showToast("Impossible de modifier la photo de profile","error","Oups...")
+            return;
+          } else if (data.code === 200){
             const newUser = await updateUserContext(profileData.id_utilisateur)
-            setUser(newUser);
+            if (newUser.code === 200){
+              setUser(newUser.results[0]);
+              localStorage.setItem("user", JSON.stringify(newUser.results[0]));
+            }
 
             fetchProfiles().then((data) => {
-              if (data.status === 'error'){
-                setIsAPIAvailable(false)
-              } else {
-                setProfiles(data);
-                localStorage.setItem('profiles',JSON.stringify(data))
+              if (data.code === 200) {
+                setProfiles(data.results);
+                localStorage.setItem('profiles',JSON.stringify(data.results))
               }
               
-            });
+            })
 
+            setImageLoading(false);
             navigate(`/@${profileData.identifiant}`,{state:{
               toast: {
                 message: "Ta nouvelle photo de profil a été ajouté avec succès",
                 type: "success",
                 title:'Photo mise à jour !'
-              }
+              },
+              contentIsUpdated:true
+              
             }})
           }
-  
-        } catch (error) {
-          setIsAPIAvailable(false)
+            
+           
+          } catch (error) {
+            setIsAPIAvailable(false);
+            showToast("Impossible de modifier la photo de profile","error","Oups...")
+            return;
         }
       }
 
@@ -140,8 +163,14 @@ const Profile: FunctionComponent<{
     
   };
 
+  useEffect(()=>{
+    setImageSrc(`https://theplayersjournal.wajrock.me/assets/users/${profileData.profile_picture}`)
+    
+  },[profileData])
+
   useEffect(() => {
     loadTop === true && window.scrollTo(0, 0);
+    
   }, [loadTop]);
 
   useEffect(() => {
@@ -159,6 +188,7 @@ const Profile: FunctionComponent<{
       <div className="profile-wrap">
       <HeroBanner top left bottom imagePath={"https://theplayersjournal.wajrock.me/assets/main-cover"}/>
       <Header />
+     
       <header className="profile-wrap-header">
         <section className="profile-wrap-header-left leftHeader">
           <div className="leftHeader-profile-picture">
@@ -281,7 +311,7 @@ const Profile: FunctionComponent<{
         title={"Avis postés"}
         endpoint={"user"}
         id_user={profileData.id_utilisateur}
-        key={loc.state && loc.state.reviewsUpdated ? `updated` : 'default'} 
+        key={loc.state && (loc.state.reviewsUpdated ? `updated` : (contentIsUpdated ? 'profile-picture-updated' : 'default'))} 
       />
       <Footer />
       <BottomBar type="profile"/>
@@ -299,6 +329,7 @@ const Profile: FunctionComponent<{
           title="Modifier mon profil"
         />
       )}
+       {imageLoading && <Toast imageSrc={imageUploadSrc} message={"Nous chargeons ton image"} type={"loading"} title={"Chargement..."} isAnimate={false}/>}
     </div>
     
   );

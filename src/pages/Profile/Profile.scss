@@ -41,6 +41,7 @@
                 width: 9rem;
                 & img {
                     height: 100%;
+                    width: 100%;
                     border-radius: 15rem;
                     object-fit: cover;
                 }
@@ -255,6 +256,7 @@
 
     & .reviews{
         padding: 0 3.625rem;
+        z-index: 2;
     }
 }
 

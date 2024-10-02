@@ -14,7 +14,8 @@ const Footer = () => {
             <nav className="footer-wrap-content-links">
                 <a href={'/articles'}  className="footer-wrap-content-links-item">Articles</a>
                 <a href={'/jeux'} className="footer-wrap-content-links-item">Jeux</a>
-                {user === null ? (<a href={'/authentication'} className="footer-wrap-content-links-item">Nous rejoindre</a>):(<a href={'/redaction'} className="footer-wrap-content-links-item">Rédiger un article</a>)}
+                {user === null && (<a href={'/authentication'} className="footer-wrap-content-links-item">Nous rejoindre</a>)}
+                {user && user.type === 'admin' && (<a href={'/redaction'} className="footer-wrap-content-links-item">Rédiger un article</a>)}
             </nav>
         </main>
 

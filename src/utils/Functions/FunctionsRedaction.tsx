@@ -1,5 +1,5 @@
 import { fetchArticleContent } from "../Fetchs/FetchsArticle";
-import { DataToSend } from "../Types";
+import { DataToSend, ResponseAPI } from "../Types";
 
 export const isRedactionCompleted = (
   id_user: DataToSend,
@@ -60,9 +60,9 @@ export const submitRedaction = async(
     },
   })
 
-  const gameDataResponse = await gameDataRequest.json();
+  const gameDataResponse:ResponseAPI = await gameDataRequest.json();
 
-  if (gameDataResponse.status === "sucess") {
+  if (gameDataResponse.code === 200) {
     dataAreAdded["game-data"] = true;
     idGame = gameDataResponse.results;
   }
@@ -76,11 +76,9 @@ export const submitRedaction = async(
       body: formData,
     })
   
-    const gameCoverResponse = await gameCoverRequest.json();
-    if (gameCoverResponse.status === "sucess") {
-      dataAreAdded["game-cover"] = true;
-      
-    }
+    const gameCoverResponse:ResponseAPI = await gameCoverRequest.json();
+
+      dataAreAdded["game-cover"] = gameCoverResponse.code === 200;
   }
 
   if (dataAreAdded["game-cover"]) {
@@ -95,9 +93,9 @@ export const submitRedaction = async(
       body: JSON.stringify(articleData),
     })
   
-    const articleDataResponse = await articleDataRequest.json();
+    const articleDataResponse:ResponseAPI = await articleDataRequest.json();
 
-    if (articleDataResponse.status === "sucess") {
+    if (articleDataResponse.code === 200) {
       dataAreAdded["article-data"] = true;
       idArticle = articleDataResponse.results;
     }
@@ -120,11 +118,9 @@ export const submitRedaction = async(
         body: formData,
       })
   
-      const articleImagesDataResponse = await articleImagesDataRequest.json();
+      const articleImagesDataResponse:ResponseAPI = await articleImagesDataRequest.json();
       
-      if (articleImagesDataResponse.status === "sucess") {
-        dataAreAdded["article-images"] = true;
-      }
+        dataAreAdded["article-images"] = articleImagesDataResponse.code === 200;
     } else {
       dataAreAdded["article-images"] = true;
     }
@@ -141,15 +137,12 @@ export const submitRedaction = async(
       body: articleCoverData,
     })
   
-    const articleCoverResponse = await articleCoverRequest.json();
+    const articleCoverResponse:ResponseAPI = await articleCoverRequest.json();
 
-    if (articleCoverResponse.status === "sucess") {
-      dataAreAdded["article-cover"] = true;
-      
-    }
+      dataAreAdded["article-cover"] = articleCoverResponse.code === 200;
   }
-    const articleContentResponse = await fetchArticleContent(idArticle);
-    const dataArticle = articleContentResponse.status === 'sucess' 
+    const articleContentResponse:ResponseAPI = await fetchArticleContent(idArticle);
+    const dataArticle = articleContentResponse.code === 200
     ? [idArticle,articleContentResponse.results[0].titre] :[]
 
     return [Object.values(dataAreAdded).every(val=>val),dataArticle];

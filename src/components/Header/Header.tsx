@@ -5,6 +5,7 @@ import { useUser } from "../../UserContext";
 const Header:FunctionComponent<{type?:string}> = ({type="default"}) => {
   const { user } = useUser();
   const headerRef = useRef<HTMLDivElement>(null);
+  
 
   return (
     <div className={`header-wrap ${type === "logotype" ? "type-logotype" : ""}`} ref={headerRef}>

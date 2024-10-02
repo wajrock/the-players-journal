@@ -15,6 +15,7 @@ import { validatePassword } from "../../utils/validatePassword";
 import { ContentType } from "../../utils/Types";
 import HeroBanner from "../../components/HeroBanners/HeroBanner";
 import BottomBar from "../../components/BottomBar/BottomBar";
+import { useAPI } from "../../ApiStatusContext";
 
 const Authentication: FunctionComponent = () => {
   const [mailsList, setMailsList] = useState<string[]>([]);
@@ -54,14 +55,26 @@ const Authentication: FunctionComponent = () => {
   const { login, setUser, signup, setProfiles } = useUser();
   const navigate = useNavigate();
 
+  const {setIsAPIAvailable} = useAPI();
+
   const [page, setPage] = useState("default");
 
   useEffect(() => {
-    fetchUsernamesEmails("mails").then((data) => {
-      setMailsList(data);
+    fetchUsernamesEmails('usernames').then((data)=>{
+      if (data.code === 500){
+        setIsAPIAvailable(false);
+      } else if (data.code === 200){
+        setUsernamesList(data.results)
+      }
       
     });
-    fetchUsernamesEmails("usernames").then((data) => setUsernamesList(data));
+     fetchUsernamesEmails('mails').then((data)=>{
+      if (data.code === 500){
+        setIsAPIAvailable(false);
+      } else if (data.code === 200){
+        setMailsList(data.results)
+      }
+    });
   }, []);
 
   const handleResetForm = () => {
@@ -83,15 +96,15 @@ const Authentication: FunctionComponent = () => {
   const handleSigninResponse = async () => {
     const response = await login(usernameEmailSignin, passwordSignin);
 
-    if (response.status === "sucess") {
+    if (response.code === 200) {
       localStorage.setItem("user", JSON.stringify(response.results[0]));
       setUser(response.results[0]);
 
       navigate("/")
     } else {
-      if (response.error === "wrong-password") {
+      if (response.message === "wrong-password") {
         setStatePasswordSigninInput(["error", "Mot de passe incorrect"]);
-      } else if (response.error === "unknow user") {
+      } else if (response.message === "unknow user") {
         setStateEmailUsernameSigninInput(["error", "Compte introuvable"]);
       }
     }
@@ -109,11 +122,11 @@ const Authentication: FunctionComponent = () => {
 
     const response = await signup(userData);
 
-    if (response.status === "sucess") {
+    if (response.code === 200) {
       setUser(response.results[0]);
-      const fetchProfilesRequest = await fetchProfiles().then((data: ContentType[]) => setProfiles(data));
-      updateUserContext(response.results[0].id_utilisateur).then((user) =>
-        setUser(user)
+      await fetchProfiles().then((data) => data.code === 200 && setProfiles(data.results));
+      updateUserContext(response.results[0].id_utilisateur).then((data) =>
+        data.code === 200 && setUser(data.results)
       );
       localStorage.setItem("user", JSON.stringify(response.results[0]));
 
@@ -125,7 +138,7 @@ const Authentication: FunctionComponent = () => {
         }
       }});
     } else {
-      console.log(response.error);
+      console.log(response.message);
     }
   };
 

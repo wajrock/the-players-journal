@@ -329,7 +329,7 @@ const Article = () => {
             title={"Les avis de la communauté"}
             endpoint={"article"}
             id_article={article_id}
-            key={loc.state.reviewsUpdated ? `updated` : 'default'} 
+            key={loc.state && loc.state.reviewsUpdated ? `updated` : 'default'} 
         />}
       </section>
       <Footer />

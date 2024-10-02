@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import formatDate from "../../../utils/formatDate";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import StarsNotation from "../../StarsNotation/StarsNotation";
@@ -8,6 +8,7 @@ import { useUser } from "../../../UserContext";
 import { deleteReview } from "../../../utils/Fetchs/FetchsReviews";
 import DeletePopup from "../../Popup/DeletePopup/DeletePopup";
 import { useToast } from "../../../ToastContext";
+import { useAPI } from "../../../ApiStatusContext";
 
 const ReviewCard: FunctionComponent<{ reviewCardData: ContentType,type:string }> = ({
   reviewCardData,type
@@ -24,17 +25,28 @@ const ReviewCard: FunctionComponent<{ reviewCardData: ContentType,type:string }>
 
   const [openPopup, setOpenPopup] = useState(false);
   const {showToast} = useToast();
+  const {setIsAPIAvailable} = useAPI();
 
   const handleDelete = () => {
     const reviewData = {
       id_avis: reviewCardData.id_avis,
     };
     deleteReview(reviewData).then((data) => {
-      if (data.status === "sucess") {
-        setOpenPopup(false);
-        const scroll = window.scrollY;
-        navigate(`${loc.pathname}`, { state: { scrollVal: scroll,reviewsUpdated:true } });
-        showToast("Ton avis a été supprimé avec succès !","success","Avis supprimé !")
+      switch (data.code) {
+        case 500:
+          setIsAPIAvailable(false);
+          break;
+        case 400:
+          showToast("Impossible de supprimer ton avis","error","Oups..");
+          break;
+        case 200:
+          setOpenPopup(false);
+          const scroll = window.scrollY;
+          navigate(`${loc.pathname}`, { state: { scrollVal: scroll,reviewsUpdated:true } });
+          showToast("Ton avis a été supprimé avec succès !","success","Avis supprimé !")
+          break;
+        default:
+          break;
       }
     });
   };

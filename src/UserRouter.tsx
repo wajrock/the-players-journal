@@ -19,13 +19,13 @@ const UserRouter = () => {
   const [alreadyLoad,setAlreadyLoad] = useState(false);
 
   useEffect(() => {
-      if ((isAPIAvailable === true || !alreadyLoad) && profiles.length === 0) {
+      if ((!profiles || !alreadyLoad)) {
         fetchProfiles().then((data) => {
-          if (data.status === 'error'){
+          if (data.code === 500){
             setIsAPIAvailable(false)
-          } else {
-            setProfiles(data);
-            localStorage.setItem('profiles',JSON.stringify(data))
+          } else if (data.code === 200) {
+            setProfiles(data.results);
+            localStorage.setItem('profiles',JSON.stringify(data.results))
           }
           
         });
@@ -36,7 +36,7 @@ const UserRouter = () => {
         navigate("/", { replace: true });
       }
     
-  }, [setProfiles, navigate,isAPIAvailable,setIsAPIAvailable,alreadyLoad,profiles.length]);
+  }, [setProfiles, profiles,navigate,isAPIAvailable,setIsAPIAvailable,alreadyLoad,profiles.length]);
 
   
   return (
@@ -64,7 +64,7 @@ const UserRouter = () => {
           {/* Routes dynamiques pour les profils */}
           {profiles.map((profile, index) => (
             <Route
-              key={index}
+              key={profile.id_utilisateur}
               path={`/@${profile.identifiant!.toLowerCase()}`}
               element={
                 <Profile

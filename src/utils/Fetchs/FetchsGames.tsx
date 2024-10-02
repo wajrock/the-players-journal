@@ -1,39 +1,38 @@
-export const fetchGames = async():Promise<any> => {
+import { ResponseAPI } from "../Types";
+
+export const fetchGames = async():Promise<ResponseAPI> => {
     try {
       const response = await fetch(`https://theplayersjournal.wajrock.me/api/games`);
       if (!response.ok) {
-        return { status: "error", code: "500", message: "error-servor" };
+        return { status: "error", code: 500, message: "error-servor" };
       }
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (error) {
-      return { status: "error", code: "500", message: "error-servor" };
+      return { status: "error", code: 400, message: error instanceof Error ? error.message : "unknown-error-occurred" };
     }
   };
 
-export const fetchCategories = async():Promise<any> => {
+export const fetchCategories = async():Promise<ResponseAPI> => {
     try {
       const response = await fetch(`https://theplayersjournal.wajrock.me/api/games?type=categories`);
       if (!response.ok) {
-        return { status: "error", code: "500", message: "error-servor" };
+        return { status: "error", code: 500, message: "error-servor" };
       }
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (error) {
-      return { status: "error", code: "500", message: "error-servor" };
+      return { status: "error", code: 400, message: error instanceof Error ? error.message : "unknown-error-occurred" };
     }
 };
 
-export const fetchPlatforms = async():Promise<any> => {
+export const fetchPlatforms = async():Promise<ResponseAPI> => {
   try {
     const response = await fetch(`https://theplayersjournal.wajrock.me/api/games?type=platforms`);
     if (!response.ok) {
-      return { status: "error", code: "500", message: "error-servor" };
+      return { status: "error", code: 500, message: "error-servor" };
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    return { status: "error", code: "500", message: "error-servor" };
+    return { status: "error", code: 400, message: error instanceof Error ? error.message : "unknown-error-occurred" };
   }
 };
 

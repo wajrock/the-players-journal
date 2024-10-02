@@ -6,7 +6,8 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { ContentType } from "./utils/Types";
+import { ContentType, ResponseAPI } from "./utils/Types";
+import { updateUserContext } from "./utils/Fetchs/FetchsUsers";
 
 interface User {
   id_utilisateur: string;
@@ -20,12 +21,12 @@ interface UserContextType {
   login: (
     username: string,
     password: string
-  ) => Promise<{ status: string; code: number; error: string; results: any[] }>;
+  ) => Promise<ResponseAPI>;
   logout: () => void;
   setUser: (user: User) => void;
   signup: (
     userData: any
-  ) => Promise<{ status: string; code: number; error: string; results: any[] }>;
+  ) => Promise<ResponseAPI>;
   profiles: ContentType[];
   setProfiles: (profiles: ContentType[]) => void;
   articleIsEdited:boolean;
@@ -45,24 +46,22 @@ export const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
     return storedData && storedData !== 'undefined' ? JSON.parse(storedData) : [];
   });
 
+
   const [articleIsEdited, setArticleIsEdited] = useState<boolean>(false);
+
+  const [alreadyLoad,setAlreadyLoad] = useState<boolean>(false);
 
   const login = async (username: string, password: string) => {
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
 
-    const response = await fetch("https://theplayersjournal.wajrock.me/api/users.php", {
+    const request = await fetch("https://theplayersjournal.wajrock.me/api/users.php", {
       method: "POST",
       body: formData,
     });
 
-    const data: {
-      status: string;
-      code: number;
-      error: string;
-      results: any[];
-    } = await response.json();
+    const data:ResponseAPI = await request.json();
 
     return data;
   };
@@ -73,18 +72,25 @@ export const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
     }
   },[user])
 
+  useEffect(()=>{
+    if (!alreadyLoad && user){
+      const getNewUser = async() => {
+        const newUser:ResponseAPI = await updateUserContext(user.id_utilisateur);
+        newUser.code === 200 && setUser(newUser.results[0]);
+      }
+      getNewUser();
+      
+      setAlreadyLoad(true)
+    }
+  },[alreadyLoad,user])
+
   const signup = async (userData: any) => {
-    const response = await fetch("https://theplayersjournal.wajrock.me/api/users.php?type=insert", {
+    const request = await fetch("https://theplayersjournal.wajrock.me/api/users.php?type=insert", {
       method: "PUT",
       body: JSON.stringify(userData),
     });
 
-    const data: {
-      status: string;
-      code: number;
-      error: string;
-      results: any[];
-    } = await response.json();
+    const data:ResponseAPI = await request.json();
 
     return data;
   };

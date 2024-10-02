@@ -65,3 +65,10 @@ export interface ContentType {
       platforms: string[];
     };
   }
+
+  export interface ResponseAPI {
+    status: "error"|"success";
+    code: 500|400|200;
+    message?: string;
+    results?:any;
+  }

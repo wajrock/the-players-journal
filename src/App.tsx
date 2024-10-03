@@ -6,14 +6,14 @@ import { UserProvider } from './UserContext';
 import UserRouter from './UserRouter';
 import { ToastProvider } from './ToastContext';
 import { APIStatusProvider } from './ApiStatusContext';
+import packageJson  from '../package.json'
 
 const STORAGE_VERSION_KEY = "app_version";
-const CURRENT_APP_VERSION = "1.1";
+const CURRENT_APP_VERSION = packageJson.version;
 
 function App() {
   useEffect(()=>{
     const storedVersion = localStorage.getItem(STORAGE_VERSION_KEY);
-
     if (storedVersion !== CURRENT_APP_VERSION) {
       localStorage.clear();
       localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_APP_VERSION);

@@ -38,38 +38,17 @@ const Profile: FunctionComponent<{
 
   const [imageLoaded,setImageLoaded] = useState(()=>{
     var image = new Image();
-    image.src = profilePicture ? `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}` : "";
+    image.src = profilePicture ? `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}-200.webp` : "";
 
     return image.complete;
   });
   const [imageLoading,setImageLoading] = useState<boolean>(false);
-  const [imageSrc,setImageSrc] = useState<string>(()=>{
-    var image = new Image();
-    image.src = profilePicture ?  `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}`: "";
-
-    return image.complete ? `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}`: ""
-  });
 
   const [imageUploadSrc,setImageUploadSrc] = useState<string>("");
 
   const {setIsAPIAvailable} = useAPI();
   const {showToast} = useToast();
-
-  useEffect(() => {
-    if (!imageLoaded){
-      const img = new Image();
-
-      img.onload = () => {
-        setImageSrc(img.src);
-        setImageLoaded(true);
-      }
-
-      img.src = profilePicture.path && `https://theplayersjournal.wajrock.me/assets/users/${profilePicture.path}`;
-    
-    }
-  }, [imageLoaded,profilePicture.path]);
-
-
+  
   
   const handleProfilePictureChanged = (
     e: ChangeEvent<HTMLInputElement>
@@ -77,11 +56,10 @@ const Profile: FunctionComponent<{
     const file = e.target.files?.[0];
     if (file) {
       setImageLoading(true);
-      const extension = file.name.split(".").pop();
       const newFilename = 
       `${profileData.nom.toLowerCase()}-${(Date.now() * Math.random())
       .toString()
-      .slice(0, 5)}.${extension}`
+      .slice(0, 5)}`
 
       const newFile = new File([file], newFilename, { type: file.type });
 
@@ -104,22 +82,22 @@ const Profile: FunctionComponent<{
       profilePictureData.append('profile-picture',newFile)
       profilePictureData.append('id_user',profileData.id_utilisateur)
       profilePictureData.append('old-image',profileData.profile_picture)
+      console.log(profileData.profile_picture);
+      
 
       const fetchData = async() => {
         try {
-          const response = await fetch('https://theplayersjournal.wajrock.me/api/users?type=update-profile-picture',{
+          const response = await fetch('https://theplayersjournal.wajrock.me/api/images.php?type=update-profile-picture',{
             method: "POST",
             body: profilePictureData
           })
-
-  
           if (!response.ok) {
             setIsAPIAvailable(false)
           }
-
           const data = await response.json();
-          
+       
           if (data.code === 400){
+            setImageLoading(false);
             showToast("Impossible de modifier la photo de profile","error","Oups...")
             return;
           } else if (data.code === 200){
@@ -151,7 +129,9 @@ const Profile: FunctionComponent<{
             
            
           } catch (error) {
-            setIsAPIAvailable(false);
+            
+            
+            setImageLoading(false);
             showToast("Impossible de modifier la photo de profile","error","Oups...")
             return;
         }
@@ -162,11 +142,6 @@ const Profile: FunctionComponent<{
     }
     
   };
-
-  useEffect(()=>{
-    setImageSrc(`https://theplayersjournal.wajrock.me/assets/users/${profileData.profile_picture}`)
-    
-  },[profileData])
 
   useEffect(() => {
     loadTop === true && window.scrollTo(0, 0);
@@ -192,10 +167,17 @@ const Profile: FunctionComponent<{
       <header className="profile-wrap-header">
         <section className="profile-wrap-header-left leftHeader">
           <div className="leftHeader-profile-picture">
-            {!imageLoaded ? (<div className="image-loader"></div>) : <img
-              src={imageSrc}
-              alt={"Avatar de l'utilisateur"}
-            />}
+            <div style={{display:imageLoaded ? 'none' : 'block'}} className="image-loader"></div>
+            <img 
+              onLoad={()=>setImageLoaded(true)}
+              style={{display:imageLoaded ? 'block' : 'none'}}
+              src={` https://theplayersjournal.wajrock.me/assets/users/${profileData.profile_picture}-200.webp`}
+              srcSet={`
+                  https://theplayersjournal.wajrock.me/assets/users/${profileData.profile_picture}-200.webp 200w,
+                  https://theplayersjournal.wajrock.me/assets/users/${profileData.profile_picture}-100.webp 100w
+                  `}
+              sizes="(min-width: 767px) 200px, 100px" 
+              alt={`${profileData.prenom} ${profileData.nom}`}/>
             {isAccount && (<label htmlFor="profile-picture" className="leftHeader-profile-picture-change">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                 <g clip-path="url(#clip0_474_1090)">
@@ -280,19 +262,10 @@ const Profile: FunctionComponent<{
                 
           <div className="rightHeader-item">
             <p className="rightHeader-item-title">
-              {profileData.type?.charAt(0).toUpperCase() +
-                profileData.type!.slice(1)}{" "}
-              depuis le
+              {`Membre depuis le`}
             </p>
             <p className="rightHeader-item-content">
               {formatDate(profileData.date_creation_compte!)}
-            </p>
-          </div>
-
-          <div className="rightHeader-item">
-            <p className="rightHeader-item-title">Dernière connexion le</p>
-            <p className="rightHeader-item-content">
-              {formatDate(profileData.date_connexion!)}
             </p>
           </div>
 

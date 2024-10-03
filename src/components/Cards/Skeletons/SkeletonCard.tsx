@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import './SkeletonCard.scss'
 
-const SkeletonCard:FunctionComponent<{type:'article-card'|'game-details'}> = ({type}) => {
+const SkeletonCard:FunctionComponent<{type:'article-card'| 'game-card' |'game-details'}> = ({type}) => {
     
   return (<>
   
@@ -9,6 +9,15 @@ const SkeletonCard:FunctionComponent<{type:'article-card'|'game-details'}> = ({t
       className="skeleton-article-card-wrap"
     >
       <div className="skeleton-article-card-wrap-container">
+      </div>
+      
+     
+    </div>)}
+
+    {type === "game-card" && (<div
+      className="skeleton-game-card-wrap"
+    >
+      <div className="skeleton-game-card-wrap-container">
       </div>
       
      

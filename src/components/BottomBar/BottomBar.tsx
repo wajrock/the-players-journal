@@ -140,7 +140,7 @@ const BottomBar: FunctionComponent<{
               }`}
             >
               <img
-                src={`https://theplayersjournal.wajrock.me/assets/users/${user.profile_picture}`}
+                src={`https://theplayersjournal.wajrock.me/assets/users/${user.profile_picture}-50.webp`}
                 alt=""
                 className="profile-picture"
               />

@@ -235,7 +235,7 @@ const Article = () => {
             <div className="infos-header">
             <Link to={articleData && articleData.identifiant ? `/@${articleData.identifiant.toLowerCase()}` : ""} state={{loadTop:true}}><div className="infos-header-author">
               <img
-                src={`https://theplayersjournal.wajrock.me/assets/users/${articleData?.profile_picture}`}
+                src={`https://theplayersjournal.wajrock.me/assets/users/${articleData?.profile_picture}-50.webp`}
                 alt=""
                 className="infos-header-author-profile-picture"
                 />

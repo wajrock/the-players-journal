@@ -42,6 +42,20 @@
     }
 }
 
+.skeleton-game-card-wrap{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--default-radius);
+    
+    &-container{
+        display: block;
+        width: 100%;
+        aspect-ratio: 4/5.69;
+        animation: image-loading 1s linear infinite alternate;
+    }
+}
+
 .skeleton-game-details-wrap{
     width: 100%;
     padding: 2rem 0;

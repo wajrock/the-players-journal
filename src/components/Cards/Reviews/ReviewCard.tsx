@@ -126,7 +126,7 @@ const ReviewCard: FunctionComponent<{ reviewCardData: ContentType,type:string }>
             <Link to={`/@${reviewCardData.identifiant?.toLowerCase()}`} state={{loadTop:true}}>
               <div className="review-card-wrap-details-author">
                 <img
-                  src={`https://theplayersjournal.wajrock.me/assets/users/${reviewCardData.profile_picture}`}
+                  src={`https://theplayersjournal.wajrock.me/assets/users/${reviewCardData.profile_picture}-50.webp`}
                   alt=""
                   className="review-card-wrap-details-profile-picture"
                 />
@@ -164,7 +164,7 @@ const ReviewCard: FunctionComponent<{ reviewCardData: ContentType,type:string }>
             <Link to={`/@${reviewCardData.identifiant?.toLowerCase()}`} state={{loadTop:true}}>
               <div className="review-card-wrap-details-author">
                 <img
-                  src={`https://theplayersjournal.wajrock.me/assets/users/${reviewCardData.profile_picture}`}
+                  src={`https://theplayersjournal.wajrock.me/assets/users/${reviewCardData.profile_picture}-50.webp`}
                   alt=""
                   className="review-card-wrap-details-profile-picture"
                 />

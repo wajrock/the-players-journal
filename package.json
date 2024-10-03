@@ -1,6 +1,6 @@
 {
   "name": "theplayersjournal",
-  "version": "0.2.0",
+  "version": "1.0.2",
   "private": true,
   "dependencies": {
     "@nextui-org/slider": "^2.2.17",
@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "node check-version.js && npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

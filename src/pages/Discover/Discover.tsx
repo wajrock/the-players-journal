@@ -9,6 +9,7 @@ import GameCard from '../../components/Cards/Games/GameCard';
 import Header from '../../components/Header/Header';
 import { useAPI } from '../../ApiStatusContext';
 import BottomBar from '../../components/BottomBar/BottomBar';
+import SkeletonCard from '../../components/Cards/Skeletons/SkeletonCard';
 ;
 
 const Discover:FunctionComponent<{type:string}> = ({type}) => {
@@ -25,7 +26,7 @@ const Discover:FunctionComponent<{type:string}> = ({type}) => {
   const [searchValue,setSearchValue] = useState<string>("");
   const [categoryValue,setCategoryValue] = useState<string>("Catégorie");
   const [sortValue,setSortValue] = useState<string>("Les plus récents");
-  const [filteredArticles,setFilteredArticles] = useState<ContentType[]>(dataContent! || null);
+  const [filteredArticles,setFilteredArticles] = useState<ContentType[]|null>(dataContent || null);
   const [baseFilteredArticles, setBaseFilteredArticles] = useState<ContentType[]>(dataContent! || null);
 
   const [alreadyLoad,setAlreadyLoad] = useState<boolean>(false);
@@ -173,17 +174,22 @@ const Discover:FunctionComponent<{type:string}> = ({type}) => {
         
       </div>
         <div className={`discover-wrap-grid ${type}`}>
-            {type === "articles" &&
-              filteredArticles?.map((article) => (
+            {type === "articles" && (
+              filteredArticles ? filteredArticles.map((article) => (
                 <ArticleCard articleCardData={article} key={article.id_article}/>
+              )) : Array(6).fill('').map((index) => (
+                <SkeletonCard type={'article-card'} key={index}/>
               ))
-            }
+            )}
 
-            {type === "games" &&
-              filteredArticles?.map((game) => (
+            {type === "games" && (
+              filteredArticles ? filteredArticles.map((game) => (
                 <GameCard gameCardData={game} key={game.id_article}/>
+              )) : Array(8).fill('').map((index) => (
+                <SkeletonCard type={'game-card'} key={index}/>
               ))
-            }
+            )}
+
         </div>
         <Footer/>
         <BottomBar type={type === 'articles' ? 'articles': 'games'}/>

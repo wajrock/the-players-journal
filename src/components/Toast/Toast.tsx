@@ -10,7 +10,6 @@ export interface ToastProps {
 }
 const Toast = forwardRef<HTMLDivElement, ToastProps>(({message,type,title,isAnimate=true,imageSrc},ref) => {
 
-    console.log(ref);
     
   return (
     <div className={`toast-wrap ${type} ${isAnimate ? "animate" : ""}`} ref={ref}>

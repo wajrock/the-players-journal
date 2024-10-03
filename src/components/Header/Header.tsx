@@ -45,7 +45,7 @@ const Header:FunctionComponent<{type?:string}> = ({type="default"}) => {
                 <p>Rédiger</p>
             </div></a>)}
             <a className="profile" href={`/@${user.identifiant.toLowerCase()}`} title="Profile">
-                <img src={`https://theplayersjournal.wajrock.me/assets/users/${user.profile_picture}`} alt="" className="profile-picture" />
+                {user.profile_picture && <img src={`https://theplayersjournal.wajrock.me/assets/users/${user.profile_picture}-50.webp`} alt="" className="profile-picture" />}
                 <div className="profile-content">
                 </div>
             </a>

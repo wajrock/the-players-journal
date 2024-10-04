@@ -1,6 +1,6 @@
 {
   "name": "theplayersjournal",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "private": true,
   "dependencies": {
     "@nextui-org/slider": "^2.2.17",
@@ -14,7 +14,7 @@
     "browser-image-compression": "^2.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-fetch-progressbar": "^1.0.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
     "react-textarea-autosize": "^8.5.3",
@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.59.1",
     "gh-pages": "^6.1.1"
   }
 }

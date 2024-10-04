@@ -1,4 +1,3 @@
-import { useAPI } from "../../ApiStatusContext";
 import { ResponseAPI } from "../Types";
 
 export const fetchContributors = async():Promise<ResponseAPI> => {

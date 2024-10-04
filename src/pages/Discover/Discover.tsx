@@ -10,6 +10,7 @@ import Header from '../../components/Header/Header';
 import { useAPI } from '../../ApiStatusContext';
 import BottomBar from '../../components/BottomBar/BottomBar';
 import SkeletonCard from '../../components/Cards/Skeletons/SkeletonCard';
+import { fetchGridContent } from '../../utils/Fetchs/FetchsDiscover';
 ;
 
 const Discover:FunctionComponent<{type:string}> = ({type}) => {
@@ -39,29 +40,15 @@ const Discover:FunctionComponent<{type:string}> = ({type}) => {
   useEffect(() => {
     
     if (!dataContent || !alreadyLoad){
-      const fetchData = async() => {
-        try {
-          const response = await fetch(`https://theplayersjournal.wajrock.me/api/${type}`);
-          if (!response.ok) {
-            setIsAPIAvailable(false)
-          }
-          const data = await response.json();
-  
-          if (data.status === 'error'){
-            setIsAPIAvailable(false);
-          } else {
-            setDataContent(data.results);
-            localStorage.setItem(type,JSON.stringify(data.results))
-            setAlreadyLoad(true);
-          }
-  
-          return data;
-        } catch (error) {
+      fetchGridContent(type).then(data => {
+        if (data.code === 500){
           setIsAPIAvailable(false)
+        } else {
+          setDataContent(data.results);
+          localStorage.setItem(type,JSON.stringify(data.results))
         }
-      }
-      fetchData();
-     
+      })
+     setAlreadyLoad(true);
     }
   }, [dataContent,type,alreadyLoad]);
 

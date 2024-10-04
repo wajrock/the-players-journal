@@ -30,11 +30,14 @@ import {
   updateDataToSend,
 } from "../../utils/Functions/FunctionsEditArticle";
 import BottomBar from "../../components/BottomBar/BottomBar";
+import useArticles from "../../Hooks/UseArticles";
 
 const EditArticle = () => {
   const { article_id } = useParams<string>();
   const navigate = useNavigate();
   const location = useLocation();
+  const {updateAllArticles} = useArticles()
+  
 
   const contentArticleTextareaRef = useRef<HTMLTextAreaElement>(null);
   const synopsisGameTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -49,6 +52,7 @@ const EditArticle = () => {
     }
     return location.state.dataArticle || null
   });
+  
   
   const [gameData, setGameData] = useState(() => {
     const storedData = localStorage.getItem(`article-games-details-${article_id}`);
@@ -224,7 +228,6 @@ const EditArticle = () => {
 
           updateDataToSend(setDataToSend,'images-data','article-images',undefined,newUploadedImages);
         } else {
-          
           const newValue = {
             path: event.target?.result as string,
             file: newFile,
@@ -249,6 +252,7 @@ const EditArticle = () => {
   const handleSubmit = async() => {
     setLoaderCta(true);
     if (await submitEdits(article_id!, defaultValues, dataToSend, navigate)){
+      updateAllArticles(articleData.id_auteur)
       navigate(
         `/article/${article_id}/${dataToSend["article-data"].title}`,
         { replace : true,state:{

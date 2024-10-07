@@ -87,9 +87,11 @@
         &-cover{
             aspect-ratio: 10/5;
             border-radius: .5rem;
+            overflow: hidden;
             & img {
                 object-position: center;
                 object-fit: cover;
+                width: 100%;
             }
             
         }

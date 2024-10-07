@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c85b719f.css",
-    "main.js": "/static/js/main.84e9e7ff.js",
+    "main.css": "/static/css/main.b7c85c42.css",
+    "main.js": "/static/js/main.d7901b5f.js",
     "static/js/453.ff7dc51f.chunk.js": "/static/js/453.ff7dc51f.chunk.js",
     "static/media/Acorn-ExtraLight.eot": "/static/media/Acorn-ExtraLight.6ed3ac11e9bf1d8d25d7.eot",
     "static/media/Acorn-ExtraLight.ttf": "/static/media/Acorn-ExtraLight.d1e460645457ae5fd093.ttf",
@@ -32,12 +32,12 @@
     "static/media/Acorn-Bold.woff2": "/static/media/Acorn-Bold.cd4257ebb8773f6de63f.woff2",
     "static/media/Acorn-Thin.woff2": "/static/media/Acorn-Thin.46c58f638136625c9328.woff2",
     "index.html": "/index.html",
-    "main.c85b719f.css.map": "/static/css/main.c85b719f.css.map",
-    "main.84e9e7ff.js.map": "/static/js/main.84e9e7ff.js.map",
+    "main.b7c85c42.css.map": "/static/css/main.b7c85c42.css.map",
+    "main.d7901b5f.js.map": "/static/js/main.d7901b5f.js.map",
     "453.ff7dc51f.chunk.js.map": "/static/js/453.ff7dc51f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c85b719f.css",
-    "static/js/main.84e9e7ff.js"
+    "static/css/main.b7c85c42.css",
+    "static/js/main.d7901b5f.js"
   ]
 }

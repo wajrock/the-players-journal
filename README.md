@@ -49,11 +49,11 @@ The API is structured with the following endpoints:
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
+   git clone https://github.com/yourusername/the-players-journal.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd your-repo
+   cd the-players-journal
    ```
 3. Install dependencies:
    ```bash
@@ -75,4 +75,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 For any inquiries or feedback, please reach out to [thibaud.wajrock@outlook.com](mailto:thibaud.wajrock@outlook.com).
-```
